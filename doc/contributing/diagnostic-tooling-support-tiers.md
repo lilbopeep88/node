@@ -113,6 +113,8 @@ The tools are currently assigned to Tiers as follows:
 | Profiling | V8 CodeEventHandler API              | Partial (V8 Tests)            | Yes                     | 2           |
 | Profiling | V8 --interpreted-frames-native-stack | Yes                           | Yes                     | 2           |
 | Profiling | Linux perf                           | Yes                           | Partial                 | 2           |
+| Profiling | node-clinic                          | No                            | No                      | 3           |
+| Debugger  | Chrome Dev tools                     | No                            | No                      | 3           |
 
 ## Tier 4
 
@@ -125,14 +127,12 @@ The tools are currently assigned to Tiers as follows:
 | Tool Type | Tool/API Name             | Regular Testing in Node.js CI | Integrated with Node.js | Target Tier |
 | --------- | ------------------------- | ----------------------------- | ----------------------- | ----------- |
 | FFDC      | node-report               | No                            | No                      | 1           |
-| Memory    | node-heapdump             | No                            | No                      | 2           |
 | Memory    | V8 heap profiler          | No                            | Yes                     | 1           |
 | Memory    | V8 sampling heap profiler | No                            | Yes                     | 1           |
 | AsyncFlow | Async Hooks (API)         | ?                             | Yes                     | 1           |
 | Debugger  | V8 Debug protocol (API)   | No                            | Yes                     | 1           |
 | Debugger  | Command line Debug Client | ?                             | Yes                     | 1           |
 | Debugger  | llnode                    | ?                             | No                      | 2           |
-| Debugger  | Chrome Dev tools          | ?                             | No                      | 3           |
 | Tracing   | trace\_events (API)       | No                            | Yes                     | 1           |
 | Tracing   | trace\_gc                 | No                            | Yes                     | 1           |
 | Tracing   | DTrace                    | No                            | Partial                 | 3           |
@@ -142,6 +142,5 @@ The tools are currently assigned to Tiers as follows:
 | Profiling | DTrace                    | No                            | Partial                 | 3           |
 | Profiling | Windows Xperf             | No                            | ?                       | ?           |
 | Profiling | 0x                        | No                            | No                      | 4           |
-| Profiling | node-clinic               | No                            | No                      | too early   |
 | F/P/T     | appmetrics                | No                            | No                      | ?           |
 | M/T       | eBPF tracing tool         | No                            | No                      | ?           |

@@ -181,6 +181,12 @@ parser.add_argument("--link-module",
          "e.g. /root/x/y.js will be referenced via require('root/x/y'). "
          "Can be used multiple times")
 
+parser.add_argument("--openssl-conf-name",
+    action="store",
+    dest="openssl_conf_name",
+    default='nodejs_conf',
+    help="The OpenSSL config appname (config section name) used by Node.js")
+
 parser.add_argument('--openssl-default-cipher-list',
     action='store',
     dest='openssl_default_cipher_list',
@@ -1249,7 +1255,7 @@ def configure_node(o):
     o['variables']['node_use_node_snapshot'] = b(
       not cross_compiling and not options.shared)
 
-  if options.without_node_code_cache or options.node_builtin_modules_path:
+  if options.without_node_code_cache or options.without_node_snapshot or options.node_builtin_modules_path:
     o['variables']['node_use_node_code_cache'] = 'false'
   else:
     # TODO(refack): fix this when implementing embedded code-cache when cross-compiling.
@@ -1458,6 +1464,7 @@ def configure_v8(o):
   o['variables']['v8_use_siphash'] = 0 if options.without_siphash else 1
   o['variables']['v8_enable_pointer_compression'] = 1 if options.enable_pointer_compression else 0
   o['variables']['v8_enable_31bit_smis_on_64bit_arch'] = 1 if options.enable_pointer_compression else 0
+  o['variables']['v8_enable_shared_ro_heap'] = 0 if options.enable_pointer_compression else 1
   o['variables']['v8_trace_maps'] = 1 if options.trace_maps else 0
   o['variables']['node_use_v8_platform'] = b(not options.without_v8_platform)
   o['variables']['node_use_bundled_v8'] = b(not options.without_bundled_v8)
@@ -1486,6 +1493,8 @@ def configure_openssl(o):
 
   if options.openssl_no_asm:
     variables['openssl_no_asm'] = 1
+
+  o['defines'] += ['NODE_OPENSSL_CONF_NAME=' + options.openssl_conf_name]
 
   if options.without_ssl:
     def without_ssl_error(option):
@@ -1535,8 +1544,10 @@ def configure_openssl(o):
   if options.openssl_no_asm and options.shared_openssl:
     error('--openssl-no-asm is incompatible with --shared-openssl')
 
-  if options.openssl_is_fips and not options.shared_openssl:
+  if options.openssl_is_fips:
     o['defines'] += ['OPENSSL_FIPS']
+
+  if options.openssl_is_fips and not options.shared_openssl:
     variables['node_fipsinstall'] = b(True)
 
   if options.shared_openssl:
@@ -1661,7 +1672,7 @@ def configure_intl(o):
     o['variables']['icu_small'] = b(True)
     locs = set(options.with_icu_locales.split(','))
     locs.add('root')  # must have root
-    o['variables']['icu_locales'] = ','.join(str(loc) for loc in locs)
+    o['variables']['icu_locales'] = ','.join(str(loc) for loc in sorted(locs))
     # We will check a bit later if we can use the canned deps/icu-small
     o['variables']['icu_default_data'] = options.with_icu_default_data_dir or ''
   elif with_intl == 'full-icu':

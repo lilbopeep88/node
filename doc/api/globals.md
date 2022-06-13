@@ -60,7 +60,7 @@ changes:
     description: Added the new optional reason argument.
 -->
 
-* `reason` {any} An optional reason, retrievable on the `AbortSignal`s
+* `reason` {any} An optional reason, retrievable on the `AbortSignal`'s
   `reason` property.
 
 Triggers the abort signal, causing the `abortController.signal` to emit
@@ -210,7 +210,7 @@ If `abortSignal.aborted` is `true`, throws `abortSignal.reason`.
 ## Class: `Blob`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 <!-- type=global -->
@@ -232,7 +232,7 @@ Used to handle binary data. See the [buffer section][].
 ## Class: `ByteLengthQueuingStrategy`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -260,7 +260,7 @@ Global alias for [`buffer.atob()`][].
 ## `BroadcastChannel`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 See {BroadcastChannel}.
@@ -308,7 +308,7 @@ added: v0.0.1
 ## Class: `CompressionStream`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -330,7 +330,7 @@ Used to print to stdout and stderr. See the [`console`][] section.
 ## Class: `CountQueuingStrategy`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -340,7 +340,9 @@ A browser-compatible implementation of [`CountQueuingStrategy`][].
 ## `Crypto`
 
 <!-- YAML
-added: v17.6.0
+added:
+  - v17.6.0
+  - v16.15.0
 -->
 
 > Stability: 1 - Experimental. Enable this API with the
@@ -348,12 +350,14 @@ added: v17.6.0
 
 A browser-compatible implementation of {Crypto}. This global is available
 only if the Node.js binary was compiled with including support for the
-`crypto` module.
+`node:crypto` module.
 
 ## `crypto`
 
 <!-- YAML
-added: v17.6.0
+added:
+  - v17.6.0
+  - v16.15.0
 -->
 
 > Stability: 1 - Experimental. Enable this API with the
@@ -364,7 +368,9 @@ A browser-compatible implementation of the [Web Crypto API][].
 ## `CryptoKey`
 
 <!-- YAML
-added: v17.6.0
+added:
+  - v17.6.0
+  - v16.15.0
 -->
 
 > Stability: 1 - Experimental. Enable this API with the
@@ -372,12 +378,12 @@ added: v17.6.0
 
 A browser-compatible implementation of {CryptoKey}. This global is available
 only if the Node.js binary was compiled with including support for the
-`crypto` module.
+`node:crypto` module.
 
 ## Class: `DecompressionStream`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -421,7 +427,9 @@ This variable may appear to be global but is not. See [`exports`][].
 ## `fetch`
 
 <!-- YAML
-added: v17.5.0
+added:
+  - v17.5.0
+  - v16.15.0
 -->
 
 > Stability: 1 - Experimental. Disable this API with the [`--no-experimental-fetch`][]
@@ -432,7 +440,9 @@ A browser-compatible implementation of the [`fetch()`][] function.
 ## Class `FormData`
 
 <!-- YAML
-added: v17.6.0
+added:
+  - v17.6.0
+  - v16.15.0
 -->
 
 > Stability: 1 - Experimental. Disable this API with the [`--no-experimental-fetch`][]
@@ -458,7 +468,9 @@ Node.js this is different. The top-level scope is not the global scope;
 ## Class `Headers`
 
 <!-- YAML
-added: v17.5.0
+added:
+  - v17.5.0
+  - v16.15.0
 -->
 
 > Stability: 1 - Experimental. Disable this API with the [`--no-experimental-fetch`][]
@@ -559,7 +571,7 @@ DataHandler.prototype.load = async function load(key) {
 ## Class: `ReadableByteStreamController`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -569,7 +581,7 @@ A browser-compatible implementation of [`ReadableByteStreamController`][].
 ## Class: `ReadableStream`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -579,7 +591,7 @@ A browser-compatible implementation of [`ReadableStream`][].
 ## Class: `ReadableStreamBYOBReader`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -589,7 +601,7 @@ A browser-compatible implementation of [`ReadableStreamBYOBReader`][].
 ## Class: `ReadableStreamBYOBRequest`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -599,7 +611,7 @@ A browser-compatible implementation of [`ReadableStreamBYOBRequest`][].
 ## Class: `ReadableStreamDefaultController`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -609,7 +621,7 @@ A browser-compatible implementation of [`ReadableStreamDefaultController`][].
 ## Class: `ReadableStreamDefaultReader`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -623,7 +635,9 @@ This variable may appear to be global but is not. See [`require()`][].
 ## `Response`
 
 <!-- YAML
-added: v17.5.0
+added:
+  - v17.5.0
+  - v16.15.0
 -->
 
 > Stability: 1 - Experimental. Disable this API with the [`--no-experimental-fetch`][]
@@ -634,7 +648,9 @@ A browser-compatible implementation of {Response}.
 ## `Request`
 
 <!-- YAML
-added: v17.5.0
+added:
+  - v17.5.0
+  - v16.15.0
 -->
 
 > Stability: 1 - Experimental. Disable this API with the [`--no-experimental-fetch`][]
@@ -685,7 +701,9 @@ The WHATWG [`structuredClone`][] method.
 ## `SubtleCrypto`
 
 <!-- YAML
-added: v17.6.0
+added:
+  - v17.6.0
+  - v16.15.0
 -->
 
 > Stability: 1 - Experimental. Enable this API with the
@@ -693,7 +711,7 @@ added: v17.6.0
 
 A browser-compatible implementation of {SubtleCrypto}. This global is available
 only if the Node.js binary was compiled with including support for the
-`crypto` module.
+`node:crypto` module.
 
 ## `DOMException`
 
@@ -718,7 +736,7 @@ The WHATWG `TextDecoder` class. See the [`TextDecoder`][] section.
 ## Class: `TextDecoderStream`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -738,7 +756,7 @@ The WHATWG `TextEncoder` class. See the [`TextEncoder`][] section.
 ## Class: `TextEncoderStream`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -748,7 +766,7 @@ A browser-compatible implementation of [`TextEncoderStream`][].
 ## Class: `TransformStream`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -758,7 +776,7 @@ A browser-compatible implementation of [`TransformStream`][].
 ## Class: `TransformStreamDefaultController`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -802,7 +820,7 @@ The object that acts as the namespace for all W3C
 ## Class: `WritableStream`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -812,7 +830,7 @@ A browser-compatible implementation of [`WritableStream`][].
 ## Class: `WritableStreamDefaultController`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.
@@ -822,7 +840,7 @@ A browser-compatible implementation of [`WritableStreamDefaultController`][].
 ## Class: `WritableStreamDefaultWriter`
 
 <!-- YAML
-added: REPLACEME
+added: v18.0.0
 -->
 
 > Stability: 1 - Experimental.

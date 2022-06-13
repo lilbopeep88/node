@@ -5,7 +5,7 @@
 <!-- YAML
 added: v16.5.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: Use of this API no longer emit a runtime warning.
 -->
@@ -62,15 +62,15 @@ for await (const value of stream)
 ```cjs
 const {
   ReadableStream
-} = require('stream/web');
+} = require('node:stream/web');
 
 const {
   setInterval: every
-} = require('timers/promises');
+} = require('node:timers/promises');
 
 const {
   performance
-} = require('perf_hooks');
+} = require('node:perf_hooks');
 
 const SECOND = 1000;
 
@@ -94,7 +94,7 @@ const stream = new ReadableStream({
 <!-- YAML
 added: v16.5.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -179,7 +179,7 @@ console.log(await reader.read());
 ```
 
 ```cjs
-const { ReadableStream } = require('stream/web');
+const { ReadableStream } = require('node:stream/web');
 
 const stream = new ReadableStream();
 
@@ -206,10 +206,10 @@ added: v16.5.0
   * `preventAbort` {boolean} When `true`, errors in this `ReadableStream`
     will not cause `transform.writable` to be aborted.
   * `preventCancel` {boolean} When `true`, errors in the destination
-    `transform.writable` is not cause this `ReadableStream` to be
+    `transform.writable` do not cause this `ReadableStream` to be
     canceled.
   * `preventClose` {boolean} When `true`, closing this `ReadableStream`
-    will no cause `transform.writable` to be closed.
+    does not cause `transform.writable` to be closed.
   * `signal` {AbortSignal} Allows the transfer of data to be canceled
     using an {AbortController}.
 * Returns: {ReadableStream} From `transform.readable`.
@@ -251,7 +251,7 @@ for await (const chunk of transformedStream)
 const {
   ReadableStream,
   TransformStream,
-} = require('stream/web');
+} = require('node:stream/web');
 
 const stream = new ReadableStream({
   start(controller) {
@@ -283,12 +283,11 @@ added: v16.5.0
   `ReadableStream`'s data will be written.
 * `options` {Object}
   * `preventAbort` {boolean} When `true`, errors in this `ReadableStream`
-    will not cause `transform.writable` to be aborted.
-  * `preventCancel` {boolean} When `true`, errors in the destination
-    `transform.writable` is not cause this `ReadableStream` to be
-    canceled.
+    will not cause `destination` to be aborted.
+  * `preventCancel` {boolean} When `true`, errors in the `destination`
+    will not cause this `ReadableStream` to be canceled.
   * `preventClose` {boolean} When `true`, closing this `ReadableStream`
-    will no cause `transform.writable` to be closed.
+    does not cause `destination` to be closed.
   * `signal` {AbortSignal} Allows the transfer of data to be canceled
     using an {AbortController}.
 * Returns: A promise fulfilled with `undefined`
@@ -319,7 +318,7 @@ added: v16.5.0
 * `options` {Object}
   * `preventCancel` {boolean} When `true`, prevents the {ReadableStream}
     from being closed when the async iterator abruptly terminates.
-    **Defaults**: `false`
+    **Default**: `false`.
 
 Creates and returns an async iterator usable for consuming this
 `ReadableStream`'s data.
@@ -342,7 +341,7 @@ The {ReadableStream} object supports the async iterator protocol using
 `for await` syntax.
 
 ```mjs
-import { Buffer } from 'buffer';
+import { Buffer } from 'node:buffer';
 
 const stream = new ReadableStream(getSomeSource());
 
@@ -384,7 +383,7 @@ port2.postMessage(stream, [stream]);
 <!-- YAML
 added: v16.5.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -455,13 +454,13 @@ Releases this reader's lock on the underlying {ReadableStream}.
 <!-- YAML
 added: v16.5.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
 
 The `ReadableStreamBYOBReader` is an alternative consumer for
-byte-oriented {ReadableStream}'s (those that are created with
+byte-oriented {ReadableStream}s (those that are created with
 `underlyingSource.type` set equal to `'bytes'` when the
 `ReadableStream` was created).
 
@@ -577,7 +576,7 @@ available.
 
 Do not pass a pooled {Buffer} object instance in to this method.
 Pooled `Buffer` objects are created using `Buffer.allocUnsafe()`,
-or `Buffer.from()`, or are often returned by various `fs` module
+or `Buffer.from()`, or are often returned by various `node:fs` module
 callbacks. These types of `Buffer`s use a shared underlying
 {ArrayBuffer} object that contains all of the data from all of
 the pooled `Buffer` instances. When a `Buffer`, {TypedArray},
@@ -706,7 +705,7 @@ Signals an error that causes the {ReadableStream} to error and close.
 <!-- YAML
 added: v16.5.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -756,7 +755,7 @@ added: v16.5.0
 <!-- YAML
 added: v16.5.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -876,7 +875,7 @@ port2.postMessage(stream, [stream]);
 <!-- YAML
 added: v16.5.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -967,7 +966,7 @@ Appends a new chunk of data to the {WritableStream}'s queue.
 <!-- YAML
 added: v16.5.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -1001,7 +1000,7 @@ with currently pending writes canceled.
 <!-- YAML
 added: v16.5.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -1107,7 +1106,7 @@ port2.postMessage(stream, [stream]);
 <!-- YAML
 added: v16.5.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -1161,7 +1160,7 @@ to be abruptly closed with an error.
 <!-- YAML
 added: v16.5.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -1198,7 +1197,7 @@ added: v16.5.0
 <!-- YAML
 added: v16.5.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -1235,7 +1234,7 @@ added: v16.5.0
 <!-- YAML
 added: v16.6.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -1279,7 +1278,7 @@ added: v16.6.0
 <!-- YAML
 added: v16.6.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -1297,7 +1296,7 @@ added: v16.6.0
   * `ignoreBOM` {boolean} When `true`, the `TextDecoderStream` will include the
     byte order mark in the decoded result. When `false`, the byte order mark
     will be removed from the output. This option is only used when `encoding` is
-    `'utf-8'`, `'utf-16be'` or `'utf-16le'`. **Default:** `false`.
+    `'utf-8'`, `'utf-16be'`, or `'utf-16le'`. **Default:** `false`.
 
 Creates a new `TextDecoderStream` instance.
 
@@ -1354,7 +1353,7 @@ added: v16.6.0
 <!-- YAML
 added: v17.0.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -1388,7 +1387,7 @@ added: v17.0.0
 <!-- YAML
 added: v17.0.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42225
     description: This class is now exposed on the global object.
 -->
@@ -1445,7 +1444,7 @@ const {
   buffer,
   json,
   text,
-} = require('stream/consumers');
+} = require('node:stream/consumers');
 ```
 
 #### `streamConsumers.arrayBuffer(stream)`

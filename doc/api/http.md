@@ -6,7 +6,7 @@
 
 <!-- source_link=lib/http.js -->
 
-To use the HTTP server and client one must `require('http')`.
+To use the HTTP server and client one must `require('node:http')`.
 
 The HTTP interfaces in Node.js are designed to support many features
 of the protocol which have been traditionally difficult to use.
@@ -188,7 +188,7 @@ of these values set to their respective defaults.
 To configure any of them, a custom [`http.Agent`][] instance must be created.
 
 ```js
-const http = require('http');
+const http = require('node:http');
 const keepAliveAgent = new http.Agent({ keepAlive: true });
 options.agent = keepAliveAgent;
 http.request(options, onResponseCallback);
@@ -301,7 +301,9 @@ removed from the array on `'timeout'`.
 <!-- YAML
 added: v0.11.4
 changes:
-  - version: v17.7.0
+  - version:
+    - v17.7.0
+    - v16.15.0
     pr-url: https://github.com/nodejs/node/pull/41906
     description: The `options` parameter is now optional.
 -->
@@ -468,9 +470,9 @@ type other than {net.Socket}.
 A client and server pair demonstrating how to listen for the `'connect'` event:
 
 ```js
-const http = require('http');
-const net = require('net');
-const { URL } = require('url');
+const http = require('node:http');
+const net = require('node:net');
+const { URL } = require('node:url');
 
 // Create an HTTP tunneling proxy
 const proxy = http.createServer((req, res) => {
@@ -564,7 +566,7 @@ HTTP version, status code, status message, key-value headers object,
 and array with the raw header names followed by their respective values.
 
 ```js
-const http = require('http');
+const http = require('node:http');
 
 const options = {
   host: '127.0.0.1',
@@ -642,7 +644,7 @@ type other than {net.Socket}.
 A client server pair demonstrating how to listen for the `'upgrade'` event.
 
 ```js
-const http = require('http');
+const http = require('node:http');
 
 // Create an HTTP server
 const server = http.createServer((req, res) => {
@@ -728,6 +730,16 @@ deprecated: v13.0.0
 * {stream.Duplex}
 
 See [`request.socket`][].
+
+### `request.cork()`
+
+<!-- YAML
+added:
+ - v13.2.0
+ - v12.16.0
+-->
+
+See [`writable.cork()`][].
 
 ### `request.end([data[, encoding]][, callback])`
 
@@ -846,6 +858,52 @@ const cookie = request.getHeader('Cookie');
 // 'cookie' is of type string[]
 ```
 
+### `request.getHeaderNames()`
+
+<!-- YAML
+added: v7.7.0
+-->
+
+* Returns: {string\[]}
+
+Returns an array containing the unique names of the current outgoing headers.
+All header names are lowercase.
+
+```js
+request.setHeader('Foo', 'bar');
+request.setHeader('Cookie', ['foo=bar', 'bar=baz']);
+
+const headerNames = request.getHeaderNames();
+// headerNames === ['foo', 'Cookie']
+```
+
+### `request.getHeaders()`
+
+<!-- YAML
+added: v7.7.0
+-->
+
+* Returns: {Object}
+
+Returns a shallow copy of the current outgoing headers. Since a shallow copy
+is used, array values may be mutated without additional calls to various
+header-related http module methods. The keys of the returned object are the
+header names and the values are the respective header values. All header names
+are lowercase.
+
+The object returned by the `response.getHeaders()` method _does not_
+prototypically inherit from the JavaScript `Object`. This means that typical
+`Object` methods such as `obj.toString()`, `obj.hasOwnProperty()`, and others
+are not defined and _will not work_.
+
+```js
+request.setHeader('Foo', 'bar');
+request.setHeader('Cookie', ['foo=bar', 'bar=baz']);
+
+const headers = response.getHeaders();
+// headers === { foo: 'bar', 'cookie': ['foo=bar', 'bar=baz'] }
+```
+
 ### `request.getRawHeaderNames()`
 
 <!-- YAML
@@ -865,6 +923,22 @@ request.setHeader('Set-Cookie', ['foo=bar', 'bar=baz']);
 
 const headerNames = request.getRawHeaderNames();
 // headerNames === ['Foo', 'Set-Cookie']
+```
+
+### `request.hasHeader(name)`
+
+<!-- YAML
+added: v7.7.0
+-->
+
+* `name` {string}
+* Returns: {boolean}
+
+Returns `true` if the header identified by `name` is currently set in the
+outgoing headers. The header name matching is case-insensitive.
+
+```js
+const hasContentType = request.hasHeader('content-type');
 ```
 
 ### `request.maxHeadersCount`
@@ -938,7 +1012,7 @@ might be reused. But if server closes connection at unfortunate time, client
 may run into a 'ECONNRESET' error.
 
 ```js
-const http = require('http');
+const http = require('node:http');
 
 // Server has a 5 seconds keep-alive timeout by default
 http
@@ -962,7 +1036,7 @@ By marking a request whether it reused socket or not, we can do
 automatic error retry base on it.
 
 ```js
-const http = require('http');
+const http = require('node:http');
 const agent = new http.Agent({ keepAlive: true });
 
 function retriableRequest() {
@@ -1072,7 +1146,7 @@ this property. In particular, the socket will not emit `'readable'` events
 because of how the protocol parser attaches to the socket.
 
 ```js
-const http = require('http');
+const http = require('node:http');
 const options = {
   host: 'www.google.com',
 };
@@ -1089,6 +1163,16 @@ req.once('response', (res) => {
 This property is guaranteed to be an instance of the {net.Socket} class,
 a subclass of {stream.Duplex}, unless the user specified a socket
 type other than {net.Socket}.
+
+### `request.uncork()`
+
+<!-- YAML
+added:
+ - v13.2.0
+ - v12.16.0
+-->
+
+See [`writable.uncork()`][].
 
 ### `request.writableEnded`
 
@@ -1229,7 +1313,7 @@ written data it is immediately destroyed.
 `socket` is the [`net.Socket`][] object that the error originated from.
 
 ```js
-const http = require('http');
+const http = require('node:http');
 
 const server = http.createServer((req, res) => {
   res.end();
@@ -1371,6 +1455,23 @@ added: v0.1.90
 
 Stops the server from accepting new connections. See [`net.Server.close()`][].
 
+### `server.closeAllConnections()`
+
+<!-- YAML
+added: v18.2.0
+-->
+
+Closes all connections connected to this server.
+
+### `server.closeIdleConnections()`
+
+<!-- YAML
+added: v18.2.0
+-->
+
+Closes all connections connected to this server which are not sending a request
+or waiting for a response.
+
 ### `server.headersTimeout`
 
 <!-- YAML
@@ -1419,7 +1520,7 @@ Limits maximum incoming headers count. If set to 0, no limit will be applied.
 <!-- YAML
 added: v14.11.0
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/41263
     description: The default request timeout changed
                  from no timeout to 300s (5 minutes).
@@ -1875,7 +1976,7 @@ because of how the protocol parser attaches to the socket. After
 `response.end()`, the property is nulled.
 
 ```js
-const http = require('http');
+const http = require('node:http');
 const server = http.createServer((req, res) => {
   const ip = res.socket.remoteAddress;
   const port = res.socket.remotePort;
@@ -1976,7 +2077,7 @@ it will switch to implicit header mode and flush the implicit headers.
 This sends a chunk of the response body. This method may
 be called multiple times to provide successive parts of the body.
 
-In the `http` module, the response body is omitted when the
+In the `node:http` module, the response body is omitted when the
 request is a HEAD request. Similarly, the `204` and `304` responses
 _must not_ include a message body.
 
@@ -2121,7 +2222,7 @@ changes:
 An `IncomingMessage` object is created by [`http.Server`][] or
 [`http.ClientRequest`][] and passed as the first argument to the [`'request'`][]
 and [`'response'`][] event respectively. It may be used to access response
-status, headers and data.
+status, headers, and data.
 
 Different from its `socket` value which is a subclass of {stream.Duplex}, the
 `IncomingMessage` itself extends {stream.Readable} and is created separately to
@@ -2265,8 +2366,28 @@ header name:
   `last-modified`, `location`, `max-forwards`, `proxy-authorization`, `referer`,
   `retry-after`, `server`, or `user-agent` are discarded.
 * `set-cookie` is always an array. Duplicates are added to the array.
-* For duplicate `cookie` headers, the values are joined together with '; '.
-* For all other headers, the values are joined together with ', '.
+* For duplicate `cookie` headers, the values are joined together with `; `.
+* For all other headers, the values are joined together with `, `.
+
+### `message.headersDistinct`
+
+<!-- YAML
+added: v18.3.0
+-->
+
+* {Object}
+
+Similar to [`message.headers`][], but there is no join logic and the values are
+always arrays of strings, even for headers received just once.
+
+```js
+// Prints something like:
+//
+// { 'user-agent': ['curl/7.22.0'],
+//   host: ['127.0.0.1:8000'],
+//   accept: ['*/*'] }
+console.log(request.headersDistinct);
+```
 
 ### `message.httpVersion`
 
@@ -2400,6 +2521,18 @@ added: v0.3.0
 
 The request/response trailers object. Only populated at the `'end'` event.
 
+### `message.trailersDistinct`
+
+<!-- YAML
+added: v18.3.0
+-->
+
+* {Object}
+
+Similar to [`message.trailers`][], but there is no join logic and the values are
+always arrays of strings, even for headers received just once.
+Only populated at the `'end'` event.
+
 ### `message.url`
 
 <!-- YAML
@@ -2497,7 +2630,7 @@ Adds HTTP trailers (headers but at the end of the message) to the message.
 Trailers will **only** be emitted if the message is chunked encoded. If not,
 the trailers will be silently discarded.
 
-HTTP requires the  `Trailer` header to be sent to emit trailers,
+HTTP requires the `Trailer` header to be sent to emit trailers,
 with a list of header field names in its value, e.g.
 
 ```js
@@ -2510,6 +2643,28 @@ message.end();
 
 Attempting to set a header field name or value that contains invalid characters
 will result in a `TypeError` being thrown.
+
+### `outgoingMessage.appendHeader(name, value)`
+
+<!-- YAML
+added: v18.3.0
+-->
+
+* `name` {string} Header name
+* `value` {string|string\[]} Header value
+* Returns: {this}
+
+Append a single header value for the header object.
+
+If the value is an array, this is equivalent of calling this method multiple
+times.
+
+If there were no previous value for the header, this is equivalent of calling
+[`outgoingMessage.setHeader(name, value)`][].
+
+Depending of the value of `options.uniqueHeaders` when the client request or the
+server were created, this will end up in the header being sent multiple times or
+a single time with values joined using `; `.
 
 ### `outgoingMessage.connection`
 
@@ -2859,14 +3014,16 @@ Found'`.
 <!-- YAML
 added: v0.1.13
 changes:
-  - version: REPLACEME
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/41263
-    description: The `requestTimeout`, `headersTimeout`, `keepAliveTimeout` and
-                 `connectionsCheckingInterval` are supported now.
-  - version: REPLACEME
+    description: The `requestTimeout`, `headersTimeout`, `keepAliveTimeout`, and
+                 `connectionsCheckingInterval` options are supported now.
+  - version: v18.0.0
     pr-url: https://github.com/nodejs/node/pull/42163
     description: The `noDelay` option now defaults to `true`.
-  - version: v17.7.0
+  - version:
+    - v17.7.0
+    - v16.15.0
     pr-url: https://github.com/nodejs/node/pull/41310
     description: The `noDelay`, `keepAlive` and `keepAliveInitialDelay`
                  options are supported now.
@@ -2916,7 +3073,7 @@ changes:
   * `maxHeaderSize` {number} Optionally overrides the value of
     [`--max-http-header-size`][] for requests received by this server, i.e.
     the maximum length of request headers in bytes.
-    **Default:** 16384 (16 KB).
+    **Default:** 16384 (16 KiB).
   * `noDelay` {boolean} If set to `true`, it disables the use of Nagle's
     algorithm immediately after a new incoming connection is received.
     **Default:** `true`.
@@ -2927,6 +3084,9 @@ changes:
   * `keepAliveInitialDelay` {number} If set to a positive number, it sets the
     initial delay before the first keepalive probe is sent on an idle socket.
     **Default:** `0`.
+  * `uniqueHeaders` {Array} A list of response headers that should be sent only
+    once. If the header's value is an array, the items will be joined
+    using `; `.
 
 * `requestListener` {Function}
 
@@ -2938,7 +3098,7 @@ The `requestListener` is a function which is automatically
 added to the [`'request'`][] event.
 
 ```cjs
-const http = require('http');
+const http = require('node:http');
 
 // Create a local server to receive data from
 const server = http.createServer((req, res) => {
@@ -2952,7 +3112,7 @@ server.listen(8000);
 ```
 
 ```cjs
-const http = require('http');
+const http = require('node:http');
 
 // Create a local server to receive data from
 const server = http.createServer();
@@ -3072,7 +3232,7 @@ added:
 * {number}
 
 Read-only property specifying the maximum allowed size of HTTP headers in bytes.
-Defaults to 16 KB. Configurable using the [`--max-http-header-size`][] CLI
+Defaults to 16 KiB. Configurable using the [`--max-http-header-size`][] CLI
 option.
 
 This can be overridden for servers and client requests by passing the
@@ -3149,7 +3309,7 @@ changes:
   * `maxHeaderSize` {number} Optionally overrides the value of
     [`--max-http-header-size`][] (the maximum length of response headers in
     bytes) for responses received from the server.
-    **Default:** 16384 (16 KB).
+    **Default:** 16384 (16 KiB).
   * `method` {string} A string specifying the HTTP request method. **Default:**
     `'GET'`.
   * `path` {string} Request path. Should include query string if any.
@@ -3161,12 +3321,15 @@ changes:
   * `protocol` {string} Protocol to use. **Default:** `'http:'`.
   * `setHost` {boolean}: Specifies whether or not to automatically add the
     `Host` header. Defaults to `true`.
+  * `signal` {AbortSignal}: An AbortSignal that may be used to abort an ongoing
+    request.
   * `socketPath` {string} Unix domain socket. Cannot be used if one of `host`
     or `port` is specified, as those specify a TCP Socket.
   * `timeout` {number}: A number specifying the socket timeout in milliseconds.
     This will set the timeout before the socket is connected.
-  * `signal` {AbortSignal}: An AbortSignal that may be used to abort an ongoing
-    request.
+  * `uniqueHeaders` {Array} A list of request headers that should be sent
+    only once. If the header's value is an array, the items will be joined
+    using `; `.
 * `callback` {Function}
 * Returns: {http.ClientRequest}
 
@@ -3190,7 +3353,7 @@ class. The `ClientRequest` instance is a writable stream. If one needs to
 upload a file with a POST request, then write to the `ClientRequest` object.
 
 ```js
-const http = require('http');
+const http = require('node:http');
 
 const postData = JSON.stringify({
   'msg': 'Hello World!'
@@ -3389,7 +3552,7 @@ Examples:
 Example:
 
 ```js
-const { validateHeaderName } = require('http');
+const { validateHeaderName } = require('node:http');
 
 try {
   validateHeaderName('');
@@ -3423,7 +3586,7 @@ or response. The HTTP module will automatically validate such headers.
 Examples:
 
 ```js
-const { validateHeaderValue } = require('http');
+const { validateHeaderValue } = require('node:http');
 
 try {
   validateHeaderValue('x-my-header', undefined);
@@ -3472,11 +3635,13 @@ try {
 [`http.request()`]: #httprequestoptions-callback
 [`message.headers`]: #messageheaders
 [`message.socket`]: #messagesocket
+[`message.trailers`]: #messagetrailers
 [`net.Server.close()`]: net.md#serverclosecallback
 [`net.Server`]: net.md#class-netserver
 [`net.Socket`]: net.md#class-netsocket
 [`net.createConnection()`]: net.md#netcreateconnectionoptions-connectlistener
 [`new URL()`]: url.md#new-urlinput-base
+[`outgoingMessage.setHeader(name, value)`]: #outgoingmessagesetheadername-value
 [`outgoingMessage.socket`]: #outgoingmessagesocket
 [`removeHeader(name)`]: #requestremoveheadername
 [`request.destroy()`]: #requestdestroyerror

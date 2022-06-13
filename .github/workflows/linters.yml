@@ -70,15 +70,19 @@ jobs:
       - name: Format C/C++ files
         run: |
           make format-cpp-build
+          # The `make format-cpp` error code is intentionally ignored here
+          # because it is irrelevant. We already check if the formatter produced
+          # a diff in the next line.
+          # Refs: https://github.com/nodejs/node/pull/42764
           CLANG_FORMAT_START="$(git merge-base HEAD refs/remotes/origin/$GITHUB_BASE_REF)" \
-            make format-cpp
+            make format-cpp || true
           git --no-pager diff --exit-code && EXIT_CODE="$?" || EXIT_CODE="$?"
           if [ "$EXIT_CODE" != "0" ]
           then
             echo
             echo 'ERROR: Please run:'
             echo
-            echo '  CLANG_FORMAT_START="$(git merge-base HEAD <target-branch-name>)" make format-cpp'
+            echo "  CLANG_FORMAT_START="$\(git merge-base HEAD ${GITHUB_BASE_REF}\)" make format-cpp"
             echo
             echo 'to format the commits in your branch.'
             exit "$EXIT_CODE"
@@ -152,7 +156,7 @@ jobs:
           persist-credentials: false
       - run: shellcheck -V
       - name: Lint Shell scripts
-        run: tools/lint-sh.js .
+        run: tools/lint-sh.mjs .
   lint-codeowners:
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
@@ -160,7 +164,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
-      - uses: mszostok/codeowners-validator@v0.6.0
+      - uses: mszostok/codeowners-validator@7f3f5e28c6d7b8dfae5731e54ce2272ca384592f
         with:
           checks: files,duppatterns
   lint-pr-url:

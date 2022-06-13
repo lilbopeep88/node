@@ -12,6 +12,8 @@ exports[`test/lib/utils/config/describe-all.js TAP > must match snapshot 1`] = `
 * Type: null or String
 
 A basic-auth string to use when authenticating against the npm registry.
+This will ONLY be used to authenticate against the npm registry. For other
+registries you will need to scope it like "//other-registry.tld/:_auth"
 
 Warning: This should generally not be set via a command-line option. It is
 safer to use a registry-provided authentication bearer token stored in the
@@ -558,23 +560,6 @@ results in no commit being made at all.
 <!-- automatically generated, do not edit manually -->
 <!-- see lib/utils/config/definitions.js -->
 
-#### \`global\`
-
-* Default: false
-* Type: Boolean
-
-Operates in "global" mode, so that packages are installed into the \`prefix\`
-folder instead of the current working directory. See
-[folders](/configuring-npm/folders) for more on the differences in behavior.
-
-* packages are installed into the \`{prefix}/lib/node_modules\` folder, instead
-  of the current working directory.
-* bin files are linked to \`{prefix}/bin\`
-* man pages are linked to \`{prefix}/share/man\`
-
-<!-- automatically generated, do not edit manually -->
-<!-- see lib/utils/config/definitions.js -->
-
 #### \`global-style\`
 
 * Default: false
@@ -765,6 +750,18 @@ number, if not already set in package.json.
 <!-- automatically generated, do not edit manually -->
 <!-- see lib/utils/config/definitions.js -->
 
+#### \`install-links\`
+
+* Default: false
+* Type: Boolean
+
+When set file: protocol dependencies that exist outside of the project root
+will be packed and installed as regular dependencies instead of creating a
+symlink. This option has no effect on workspaces.
+
+<!-- automatically generated, do not edit manually -->
+<!-- see lib/utils/config/definitions.js -->
+
 #### \`json\`
 
 * Default: false
@@ -859,6 +856,15 @@ npm registry. Must be IPv4 in versions of Node prior to 0.12.
 * Type: "global", "user", or "project"
 
 When passed to \`npm config\` this refers to which config file to use.
+
+When set to "global" mode, packages are installed into the \`prefix\` folder
+instead of the current working directory. See
+[folders](/configuring-npm/folders) for more on the differences in behavior.
+
+* packages are installed into the \`{prefix}/lib/node_modules\` folder, instead
+  of the current working directory.
+* bin files are linked to \`{prefix}/bin\`
+* man pages are linked to \`{prefix}/share/man\`
 
 <!-- automatically generated, do not edit manually -->
 <!-- see lib/utils/config/definitions.js -->
@@ -1037,6 +1043,19 @@ variable will be set to \`'production'\` for all lifecycle scripts.
 <!-- automatically generated, do not edit manually -->
 <!-- see lib/utils/config/definitions.js -->
 
+#### \`omit-lockfile-registry-resolved\`
+
+* Default: false
+* Type: Boolean
+
+This option causes npm to create lock files without a \`resolved\` key for
+registry dependencies. Subsequent installs will need to resolve tarball
+endpoints with the configured registry, likely resulting in a longer install
+time.
+
+<!-- automatically generated, do not edit manually -->
+<!-- see lib/utils/config/definitions.js -->
+
 #### \`otp\`
 
 * Default: null
@@ -1078,10 +1097,6 @@ The package to install for [\`npm exec\`](/commands/npm-exec)
 
 If set to false, then ignore \`package-lock.json\` files when installing. This
 will also prevent _writing_ \`package-lock.json\` if \`save\` is true.
-
-When package package-locks are disabled, automatic pruning of extraneous
-modules will also be disabled. To remove extraneous modules with
-package-locks disabled use \`npm prune\`.
 
 This configuration does not affect \`npm ci\`.
 
@@ -1787,6 +1802,25 @@ What authentication strategy to use with \`adduser\`/\`login\`.
 * DEPRECATED: Please use --include=dev instead.
 
 Alias for \`--include=dev\`.
+
+<!-- automatically generated, do not edit manually -->
+<!-- see lib/utils/config/definitions.js -->
+
+#### \`global\`
+
+* Default: false
+* Type: Boolean
+* DEPRECATED: \`--global\`, \`--local\` are deprecated. Use \`--location=global\`
+  instead.
+
+Operates in "global" mode, so that packages are installed into the \`prefix\`
+folder instead of the current working directory. See
+[folders](/configuring-npm/folders) for more on the differences in behavior.
+
+* packages are installed into the \`{prefix}/lib/node_modules\` folder, instead
+  of the current working directory.
+* bin files are linked to \`{prefix}/bin\`
+* man pages are linked to \`{prefix}/share/man\`
 
 <!-- automatically generated, do not edit manually -->
 <!-- see lib/utils/config/definitions.js -->

@@ -346,7 +346,7 @@ EnvironmentOptionsParser::EnvironmentOptionsParser() {
   AddOption("--experimental-json-modules", "", NoOp{}, kAllowedInEnvironment);
   AddOption("--experimental-loader",
             "use the specified module as a custom loader",
-            &EnvironmentOptions::userland_loader,
+            &EnvironmentOptions::userland_loaders,
             kAllowedInEnvironment);
   AddAlias("--loader", "--experimental-loader");
   AddOption("--experimental-modules", "", NoOp{}, kAllowedInEnvironment);
@@ -432,6 +432,12 @@ EnvironmentOptionsParser::EnvironmentOptionsParser() {
             &EnvironmentOptions::force_async_hooks_checks,
             kAllowedInEnvironment,
             true);
+  AddOption(
+      "--force-node-api-uncaught-exceptions-policy",
+      "enforces 'uncaughtException' event on Node API asynchronous callbacks",
+      &EnvironmentOptions::force_node_api_uncaught_exceptions_policy,
+      kAllowedInEnvironment,
+      false);
   AddOption("--addons",
             "disable loading native addons",
             &EnvironmentOptions::allow_native_addons,
@@ -650,10 +656,6 @@ PerIsolateOptionsParser::PerIsolateOptionsParser(
             "track heap object allocations for heap snapshots",
             &PerIsolateOptions::track_heap_objects,
             kAllowedInEnvironment);
-  AddOption("--node-snapshot",
-            "",  // It's a debug-only option.
-            &PerIsolateOptions::node_snapshot,
-            kAllowedInEnvironment);
 
   // Explicitly add some V8 flags to mark them as allowed in NODE_OPTIONS.
   AddOption("--abort-on-uncaught-exception",
@@ -704,14 +706,17 @@ PerIsolateOptionsParser::PerIsolateOptionsParser(
             kAllowedInEnvironment);
   Implies("--report-signal", "--report-on-signal");
 
-  AddOption("--experimental-top-level-await",
+  AddOption(
+      "--experimental-top-level-await", "", NoOp{}, kAllowedInEnvironment);
+
+  AddOption("--experimental-shadow-realm",
             "",
-            &PerIsolateOptions::experimental_top_level_await,
+            &PerIsolateOptions::experimental_shadow_realm,
             kAllowedInEnvironment);
-  AddOption("--harmony-top-level-await", "", V8Option{});
-  Implies("--experimental-top-level-await", "--harmony-top-level-await");
-  Implies("--harmony-top-level-await", "--experimental-top-level-await");
-  ImpliesNot("--no-harmony-top-level-await", "--experimental-top-level-await");
+  AddOption("--harmony-shadow-realm", "", V8Option{});
+  Implies("--experimental-shadow-realm", "--harmony-shadow-realm");
+  Implies("--harmony-shadow-realm", "--experimental-shadow-realm");
+  ImpliesNot("--no-harmony-shadow-realm", "--experimental-shadow-realm");
 
   Insert(eop, &PerIsolateOptions::get_per_env_options);
 }
@@ -755,7 +760,10 @@ PerProcessOptionsParser::PerProcessOptionsParser(
             "Currently only supported in the node_mksnapshot binary.",
             &PerProcessOptions::build_snapshot,
             kDisallowedInEnvironment);
-
+  AddOption("--node-snapshot",
+            "",  // It's a debug-only option.
+            &PerProcessOptions::node_snapshot,
+            kAllowedInEnvironment);
   // 12.x renamed this inadvertently, so alias it for consistency within the
   // release line, while using the original name for consistency with older
   // release lines.
@@ -860,6 +868,10 @@ PerProcessOptionsParser::PerProcessOptionsParser(
   AddOption("--openssl-legacy-provider",
             "enable OpenSSL 3.0 legacy provider",
             &PerProcessOptions::openssl_legacy_provider,
+            kAllowedInEnvironment);
+  AddOption("--openssl-shared-config",
+            "enable OpenSSL shared configuration",
+            &PerProcessOptions::openssl_shared_config,
             kAllowedInEnvironment);
 
 #endif  // OPENSSL_VERSION_MAJOR

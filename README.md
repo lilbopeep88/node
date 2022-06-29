@@ -180,8 +180,6 @@ For information about the governance of the Node.js project, see
   **Matteo Collina** <<matteo.collina@gmail.com>> (he/him)
 * [mhdawson](https://github.com/mhdawson) -
   **Michael Dawson** <<midawson@redhat.com>> (he/him)
-* [MylesBorins](https://github.com/MylesBorins) -
-  **Myles Borins** <<myles.borins@gmail.com>> (he/him)
 * [RaisinTen](https://github.com/RaisinTen) -
   **Darshan Sen** <<raisinten@gmail.com>> (he/him)
 * [richardlau](https://github.com/richardlau) -
@@ -229,6 +227,8 @@ For information about the governance of the Node.js project, see
   **Mary Marchini** <<oss@mmarchini.me>> (she/her)
 * [mscdex](https://github.com/mscdex) -
   **Brian White** <<mscdex@mscdex.net>>
+* [MylesBorins](https://github.com/MylesBorins) -
+  **Myles Borins** <<myles.borins@gmail.com>> (he/him)
 * [nebrius](https://github.com/nebrius) -
   **Bryan Hughes** <<bryan@nebri.us>>
 * [ofrobots](https://github.com/ofrobots) -
@@ -328,8 +328,6 @@ For information about the governance of the Node.js project, see
   **Harshitha K P** <<harshitha014@gmail.com>> (she/her)
 * [himself65](https://github.com/himself65) -
   **Zeyu "Alex" Yang** <<himself65@outlook.com>> (he/him)
-* [hiroppy](https://github.com/hiroppy) -
-  **Yuta Hiroto** <<hello@hiroppy.me>> (he/him)
 * [iansu](https://github.com/iansu) -
   **Ian Sutherland** <<ian@iansutherland.ca>>
 * [indutny](https://github.com/indutny) -
@@ -504,6 +502,8 @@ For information about the governance of the Node.js project, see
   **Glen Keane** <<glenkeane.94@gmail.com>> (he/him)
 * [hashseed](https://github.com/hashseed) -
   **Yang Guo** <<yangguo@chromium.org>> (he/him)
+* [hiroppy](https://github.com/hiroppy) -
+  **Yuta Hiroto** <<hello@hiroppy.me>> (he/him)
 * [iarna](https://github.com/iarna) -
   **Rebecca Turner** <<me@re-becca.org>>
 * [imran-iq](https://github.com/imran-iq) -
